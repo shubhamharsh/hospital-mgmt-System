@@ -35,15 +35,16 @@ class Hospital:
         ButtonFrame.place(x=0,y=480,width=1530,height=30)
         #------------------------------------details frame---------------------------------------------
         DetailsFrame = Frame(self.root, bd = 5, relief = RIDGE,bg="brown")
-        DetailsFrame.place(x=0,y=511,width=1530,height=120)
+        DetailsFrame.place(x=0,y=515,width=1530,height=120)
         
         #-------------------------------------DataFrame Left-------------------------------------------
         
+        #names of tablet
         lblNameTablet=Label(DataframeLeft, text="Names of Tablet", font=('times new roman',10,'bold'),padx=2,pady=6)
         lblNameTablet.grid(row=0,column=0)
         
         comNametablet = ttk.Combobox(DataframeLeft, state='readonly',font=('times new roman',10,'bold'), 
-                                     width=33)
+                                     width=35)
         comNametablet['values']=('Nice', 'Corona Vaccine', 'Acetaminophen', 'Adderall','Amlodipine','Ativan')
         comNametablet.grid(row=0, column=1)
         
@@ -148,6 +149,29 @@ class Hospital:
         lblPatientAddress.grid(row=8,column=2,sticky=W)
         txtPatientAddress = Entry(DataframeLeft, font=('arial', 12, 'bold'), width = 35)
         txtPatientAddress.grid(row=8,column=3)
+        
+        # --------------------------------------------------Data Frame Right ------------------------------------
+        
+        self.textPrescription = Text(DataframeRight, font=('arial', 12, 'bold'), width=30, height=16, padx=2, pady=6)
+        self.textPrescription.grid(row=0,column=0)
+        #---------------------------------------------------Buttons----------------------------------------------
+        btnPrescription = Button(ButtonFrame,text="Prescription",font=('arial',10,'bold'), fg="white",bg="green",  width=25, padx=2,pady=6)
+        btnPrescription.grid(row=0,column=1)
+        
+        btnPrescriptionData = Button(ButtonFrame,text="Prescription Data",font=('arial',10,'bold'), fg="white",bg="green",  width=25, padx=2,pady=6)
+        btnPrescriptionData.grid(row=0,column=2)
+        
+        btnUpdate = Button(ButtonFrame,text="Update",font=('arial',10,'bold'), fg="brown",bg="green",  width=25, padx=2,pady=6)
+        btnUpdate.grid(row=0,column=3)        
+
+        btnDelete = Button(ButtonFrame,text="Delete",font=('arial',10,'bold'), fg="white",bg="green",  width=25,  padx=2,pady=6)
+        btnDelete.grid(row=0,column=4)
+
+        btnClear = Button(ButtonFrame,text="Clear",font=('arial',10,'bold'), fg="white",bg="green",  width=25, padx=2,pady=6)
+        btnClear.grid(row=0,column=5)
+
+        btnExit = Button(ButtonFrame,text="Exit",font=('arial',10,'bold'), fg="white",bg="green",  width=25, padx=2,pady=6)
+        btnExit.grid(row=0,column=6)
     def __str__(self):
         return f'width is {self.width} and height is {self.height}'
 
