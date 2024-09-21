@@ -152,25 +152,25 @@ class Hospital:
         
         # --------------------------------------------------Data Frame Right ------------------------------------
         
-        self.textPrescription = Text(DataframeRight, font=('arial', 12, 'bold'), width=30, height=16, padx=2, pady=6)
+        self.textPrescription = Text(DataframeRight, font=('arial', 12, 'bold'), width=35, height=16, padx=2, pady=6)
         self.textPrescription.grid(row=0,column=0)
         #---------------------------------------------------Buttons----------------------------------------------
-        btnPrescription = Button(ButtonFrame,text="Prescription",font=('arial',10,'bold'), fg="white",bg="green",  width=25, padx=2,pady=6)
+        btnPrescription = Button(ButtonFrame,text="Prescription",font=('arial',6,'bold'), fg="white",bg="green",  width=35, padx=2,pady=6)
         btnPrescription.grid(row=0,column=1)
         
-        btnPrescriptionData = Button(ButtonFrame,text="Prescription Data",font=('arial',10,'bold'), fg="white",bg="green",  width=25, padx=2,pady=6)
+        btnPrescriptionData = Button(ButtonFrame,text="Prescription Data",font=('arial',6,'bold'), fg="white",bg="green",  width=35, padx=2,pady=6)
         btnPrescriptionData.grid(row=0,column=2)
         
-        btnUpdate = Button(ButtonFrame,text="Update",font=('arial',10,'bold'), fg="brown",bg="green",  width=25, padx=2,pady=6)
+        btnUpdate = Button(ButtonFrame,text="Update",font=('arial',6,'bold'), fg="brown",bg="green",  width=35, padx=2,pady=6)
         btnUpdate.grid(row=0,column=3)        
 
-        btnDelete = Button(ButtonFrame,text="Delete",font=('arial',10,'bold'), fg="white",bg="green",  width=25,  padx=2,pady=6)
+        btnDelete = Button(ButtonFrame,text="Delete",font=('arial',6,'bold'), fg="white",bg="green",  width=35,  padx=2,pady=6)
         btnDelete.grid(row=0,column=4)
 
-        btnClear = Button(ButtonFrame,text="Clear",font=('arial',10,'bold'), fg="white",bg="green",  width=25, padx=2,pady=6)
+        btnClear = Button(ButtonFrame,text="Clear",font=('arial',6,'bold'), fg="white",bg="green",  width=35, padx=2,pady=6)
         btnClear.grid(row=0,column=5)
 
-        btnExit = Button(ButtonFrame,text="Exit",font=('arial',10,'bold'), fg="white",bg="green",  width=25, padx=2,pady=6)
+        btnExit = Button(ButtonFrame,text="Exit",font=('arial',6,'bold'), fg="white",bg="green",  width=35, padx=2,pady=6)
         btnExit.grid(row=0,column=6)
     def __str__(self):
         return f'width is {self.width} and height is {self.height}'
