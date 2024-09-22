@@ -6,6 +6,7 @@ import datetime
 from tkinter import messagebox
 import mysql.connector
 
+
 class Hospital:
     def __init__(self, root):
         self.root = root
@@ -44,7 +45,7 @@ class Hospital:
         
         DataframeLeft=LabelFrame(Dataframe,bd=5,relief=GROOVE,padx=10,
                                 font=('times new roman',10,'bold'),text="Patient Information")
-        DataframeLeft.place(x=0,y=5,width=int(self.width*0.70),height= 360)
+        DataframeLeft.place(x=0,y=5,width=int(self.width*0.74),height= 360)
         
         DataframeRight=LabelFrame(Dataframe,bd=5,relief=RIDGE,padx=5,
                                 font=('times new roman',10,'bold'),text="Prescription")
@@ -53,13 +54,13 @@ class Hospital:
         ButtonFrame = Frame(self.root, bd = 5, relief = RIDGE)
         ButtonFrame.place(x=0,y=480,width=1530,height=30)
         #------------------------------------details frame---------------------------------------------
-        DetailsFrame = Frame(self.root, bd = 5, relief = RIDGE,bg="brown")
+        DetailsFrame = Frame(self.root, bd = 5, relief = RIDGE,bg="white")
         DetailsFrame.place(x=0,y=515,width=1530,height=120)
         
         #-------------------------------------DataFrame Left-------------------------------------------
         
-        #names of tablet
-        lblNameTablet=Label(DataframeLeft, text="Names of Tablet", font=('times new roman',10,'bold'),padx=2,pady=6)
+        #Names of tablet
+        lblNameTablet=Label(DataframeLeft, text="Names of Tablet", font=('times new roman',13,'bold'),padx=2,pady=6)
         lblNameTablet.grid(row=0,column=0)
         
         comNametablet = ttk.Combobox(DataframeLeft, textvariable=self.Nameoftablets,state='readonly',font=('times new roman',10,'bold'), 
@@ -154,9 +155,8 @@ class Hospital:
         #Patient Name
         lblPatientname = Label(DataframeLeft, font=('arial',12,'bold'),text="Patient Name",padx=2,pady=6)
         lblPatientname.grid(row=6,column=2,sticky=W)
-        txtPatientname= Entry(DataframeLeft, font=('arial',12,'bold'),width=35)
-        # txtPatientname= Entry(DataframeLeft,textvariable=self.PatientName, font=('arial',12,'bold'),width=35)
-        txtPatientname.grid(row=6,column=5)
+        txtPatientname= Entry(DataframeLeft, textvariable=self.PatientName,font=('arial',12,'bold'),width=35)
+        txtPatientname.grid(row=6,column=3)
         
         #Date of Birth
         lblDateofBirth = Label(DataframeLeft, font=('arial',12,'bold'), text="Date of Birth", padx=2, pady=6)
@@ -172,8 +172,8 @@ class Hospital:
         
         # --------------------------------------------------Data Frame Right ------------------------------------
         
-        self.textPrescription = Text(DataframeRight, font=('arial', 12, 'bold'), width=32, height=17, padx=1, pady=6)
-        self.textPrescription.grid(row=0,column=0)
+        self.txtPrescription = Text(DataframeRight, font=('arial',8, 'bold'), width=45, height=20, padx=1, pady=6)
+        self.txtPrescription.grid(row=0,column=0)
         #---------------------------------------------------Buttons----------------------------------------------
         btnPrescription = Button(ButtonFrame,command=self.iPrescription,text="Prescription",font=('arial',6,'bold'), fg="white",bg="green",  width=35, padx=2,pady=6)
         btnPrescription.grid(row=0,column=1)
@@ -195,63 +195,102 @@ class Hospital:
         
         #-----------------------------------------Table-----------------------------------------------------------------
         #----------------scrollbar----------------------
-        scroll_x= ttk.Scrollbar(DetailsFrame, orient=HORIZONTAL)
-        scroll_y= ttk.Scrollbar(DetailsFrame, orient=VERTICAL)
-        self.hospital_table = ttk.Treeview(DetailsFrame, column=('nameoftablets','ref','dose','nooftablets','lot','issuedate',
-                                                                 'expdate','dailydose','storage','nhsnumber','pname','dob','address'),xscrollcommand=scroll_x.set)
-        scroll_x.pack(side=BOTTOM,fill=X)
-        scroll_y.pack(side=BOTTOM,fill=Y)
-        
-        srocll_x = ttk.Scrollbar(command=self.hospital_table.xview)
-        scroll_y = ttk.Scrollbar(command=self.hospital_table.yview)
-        
-        self.hospital_table.heading('nameoftablets',text="Name of table")
-        self.hospital_table.heading('ref',text='Reference No.')
-        self.hospital_table.heading('nooftablets',text='No. of tablets')
-        self.hospital_table.heading('lot',text="Lot")
-        self.hospital_table.heading('issuedate',text="Issue date")
-        self.hospital_table.heading('expdate',text='Exp date')
-        self.hospital_table.heading('dailydose',text='Daily Date')
-        self.hospital_table.heading('storage',text='Storage')
-        self.hospital_table.heading('nhsnumber',text='nhs number')
+        scroll_x = ttk.Scrollbar(DetailsFrame, orient=HORIZONTAL)
+        scroll_y = ttk.Scrollbar(DetailsFrame, orient=VERTICAL)
+
+        # Create the Treeview widget and link the scrollbars
+        self.hospital_table = ttk.Treeview(DetailsFrame, 
+                                        columns=('nameoftablets','ref','dose','nooftablets','lot','issuedate',
+                                                    'expdate','dailydose','storage','nhsnumber','pname','dob','address'),
+                                        xscrollcommand=scroll_x.set,  # Link horizontal scrollbar
+                                        yscrollcommand=scroll_y.set)  # Link vertical scrollbar
+
+        # Pack the scrollbars in the correct positions
+        scroll_x.pack(side=BOTTOM, fill=X)
+        scroll_y.pack(side=RIGHT, fill=Y)
+
+        # Configure the scrollbars to work with the Treeview
+        scroll_x.config(command=self.hospital_table.xview)
+        scroll_y.config(command=self.hospital_table.yview)
+
+        # Configure the column headings
+        self.hospital_table.heading('nameoftablets', text="Name of Tablets")
+        self.hospital_table.heading('ref', text='Reference No.')
+        self.hospital_table.heading('dose', text='Dose')  # Missing in your original setup
+        self.hospital_table.heading('nooftablets', text='No. of Tablets')
+        self.hospital_table.heading('lot', text="Lot")
+        self.hospital_table.heading('issuedate', text="Issue Date")
+        self.hospital_table.heading('expdate', text='Expiry Date')
+        self.hospital_table.heading('dailydose', text='Daily Dose')
+        self.hospital_table.heading('storage', text='Storage')
+        self.hospital_table.heading('nhsnumber', text='NHS Number')
         self.hospital_table.heading('pname', text="Patient Name")
-        self.hospital_table.heading('dob',text='DOB')
-        self.hospital_table.heading('address',text='Address')
-        
+        self.hospital_table.heading('dob', text='Date of Birth')
+        self.hospital_table.heading('address', text='Address')
+
+        # Make sure only the headings are displayed (no default empty column)
         self.hospital_table['show'] = 'headings'
-        
-        self.hospital_table.pack(fill=BOTH,expand=1)
-        self.hospital_table.bind('<ButtonRelease-1>',self.get_cursor)
-        self.fetch_data()        
-        # ==============================Functionality Declaration=====================================
+
+        # Pack the Treeview to fill the entire area
+        self.hospital_table.pack(fill=BOTH, expand=1)
+
+        # Bind the Treeview to the cursor event (assumed to select a row)
+        self.hospital_table.bind('<ButtonRelease-1>', self.get_cursor)
+
+        # Call to fetch and display data
+        self.fetch_data()
+      
+    #===============================Functionality Declaration=====================================
+
     def iPrescriptionData(self):
         if self.Nameoftablets.get() == "" or self.ref.get() == "":
-            messagebox.showerror("error", "All fields are required")
+            messagebox.showerror("Error", "All fields are required")
         else:
-            conn = mysql.connector.connect(
-                host='localhost',
-                username='root',
-                password='root',
-                database='mydata'
-            )
-            
-            my_cursor=conn.cursor()
-            my_cursor.execute('insert into hospital values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',(
-                self.Nameoftablets.get(),
-                self.ref.get(),
-                self.Dose.get(),
-                self.Issuedate.get(),
-                self.Expdate.get(),
-                self.DailyDose.get(),
-                self.StorageAdvice.get(),
-                self.nhsNumber.get(),
-                self.DateOfBirth.get(),
-                self.PatientAddress.get()
-            ))
-        conn.commit()
-        self.fetch_data()
-        conn.close()
-        messagebox.showinfo('Success',"Record has been inserted")
+            try:
+                # Establish MySQL connection
+                conn = mysql.connector.connect(
+                    host='localhost',
+                    username='root',
+                    password='root',
+                    database='mydata'
+                )
+                my_cursor = conn.cursor()
+
+                # Insert query
+                my_cursor.execute('''INSERT INTO hospital (Nameoftablets, ReferenceNo, Dose, issuedate, expdate, dailydose, storage, nhsnumber, DOB, patientaddress) 
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''', (
+                    self.Nameoftablets.get(),
+                    self.ref.get(),
+                    self.Dose.get(),
+                    self.IssueDate.get(),
+                    self.ExpDate.get(),
+                    self.DailyDose.get(),
+                    self.StorageAdvice.get(),
+                    self.nhsNumber.get(),
+                    self.DateOfBirth.get(),
+                    self.PatientAddress.get()
+                ))
+
+                # Commit to the database
+                conn.commit()
+
+                # Refresh the data and close connection
+                self.fetch_data()
+                conn.close()
+
+                # Success message
+                messagebox.showinfo('Success', "Record has been inserted")
+
+            except mysql.connector.Error as err:
+                # Handling specific MySQL errors
+                messagebox.showerror('Database Error', f"Error: {err}")
+            except Exception as e:
+                # Handling general errors
+                messagebox.showerror('Error', f"An error occurred: {e}")
+            finally:
+                if conn.is_connected():
+                    conn.close()  # Ensure the connection is closed
+
     
     def fetch_data(self):
             conn = mysql.connector.connect(host='localhost', username='root',password='root',database='mydata')
@@ -259,29 +298,34 @@ class Hospital:
             my_cursor.execute('select * from hospital')
             rows = my_cursor.fetchall()
             if len(rows) != 0:
-                self.hospital_table.delete(self.hospital_table.get_children())
+                self.hospital_table.delete(*self.hospital_table.get_children())
                 for i in rows:
                     self.hospital_table.insert('', END, values = i)
                 conn.commit()
             conn.close()
     
-    def get_cursor(self, event = ""):
-        cursor_row = self.hospital_table.focus()
-        content=self.hospital_table.item(cursor_row)
-        row=content['values']
-        self.Nameoftablets.set(row[0])
-        self.ref.set(row[1])
-        self.Dose.set(row[2])
-        self.NumberofTablets.set(row[3])
-        self.Lot.set(row[4])
-        self.IssueDate.set(row[5])
-        self.ExpDate.set(row[6])
-        self.DailyDose.set(row[7])
-        self.StorageAdvice.set(row[8])
-        self.nhsNumber.set(row[9])
-        self.PatientName.set(row[10])
-        self.DateOfBirth.set(row[11])
-        self.PatientAddress.set(row[12])
+    def get_cursor(self, event=None):
+        cursor_row = self.hospital_table.focus()  # Get the ID of the selected row
+        row = self.hospital_table.item(cursor_row, 'values')  # Get the values of the selected row
+        
+        if row:  # Check if row has data
+            self.Nameoftablets.set(row[0])
+            self.ref.set(row[1])
+            self.Dose.set(row[2])
+            self.NumberofTablets.set(row[3])
+            self.Lot.set(row[4])
+            self.IssueDate.set(row[5])
+            self.ExpDate.set(row[6])
+            self.DailyDose.set(row[7])
+            self.StorageAdvice.set(row[8])
+            self.nhsNumber.set(row[9])
+            self.PatientName.set(row[10])
+            self.DateOfBirth.set(row[11])
+            self.PatientAddress.set(row[12])
+        else:
+            # Handle the case when no row is selected or row is empty
+            print("No row selected or row is empty.")
+
         
     def update_data(self):
         # Establish connection
@@ -293,19 +337,19 @@ class Hospital:
         UPDATE hospital 
         SET 
             Nameoftablets=%s, 
-            Dose=%s, 
-            No_of_Tablets=%s, 
+            dose=%s, 
+            Numbersoftablets=%s, 
             Lot=%s, 
-            Issue_Date=%s, 
-            Exp_Date=%s, 
-            Daily_Dose=%s, 
-            Storage=%s, 
-            NHSNumber=%s, 
-            Patient_Name=%s, 
+            issuedate=%s, 
+            expdate=%s, 
+            dailydose=%s, 
+            storage=%s, 
+            nhsnumber=%s, 
+            patientname=%s, 
             DOB=%s, 
-            Address=%s 
+            patientaddress=%s 
         WHERE 
-            Reference_No=%s
+            ReferenceNo=%s
         '''
 
         # Execute the query with data values
@@ -314,30 +358,31 @@ class Hospital:
             self.Dose.get(),
             self.NumberofTablets.get(),
             self.Lot.get(),
-            self.Issuedate.get(),
+            self.IssueDate.get(),
             self.ExpDate.get(),
             self.DailyDose.get(),
             self.StorageAdvice.get(),
             self.nhsNumber.get(),
             self.PatientName.get(),
-            self.DateofBirth.get(),
+            self.DateOfBirth.get(),
             self.PatientAddress.get(),
             self.ref.get(),
         ))
 
         # Commit changes
         conn.commit()
-
+        self.fetch_data()
         # Close the connection
         conn.close()
 
     def iPrescription(self):
+        self.txtPrescription.delete("1.0", END)
         self.txtPrescription.insert(END,"Name of Tablets:\t\t\t" + self.Nameoftablets.get() + "\n")
         self.txtPrescription.insert(END,"Reference No:\t\t\t" + self.ref.get() + "\n")
         self.txtPrescription.insert(END,"Dose:\t\t\t" + self.Dose.get() + "\n")
         self.txtPrescription.insert(END,"Number Of Tablets:\t\t\t" + self.NumberofTablets.get() + "\n")
         self.txtPrescription.insert(END,"Lot:\t\t\t" + self.Lot.get() + "\n")
-        self.txtPrescription.insert(END,"Issue Date:\t\t\t" + self.Issuedate.get() + "\n")
+        self.txtPrescription.insert(END,"Issue Date:\t\t\t" + self.IssueDate.get() + "\n")
         self.txtPrescription.insert(END,"Exp Date:\t\t\t" + self.ExpDate.get() + "\n")
         self.txtPrescription.insert(END,"Daily Dose:\t\t\t" + self.DailyDose.get() + "\n")
         self.txtPrescription.insert(END,"Side Effect:\t\t\t" + self.sideEffect.get() + "\n")
@@ -347,13 +392,13 @@ class Hospital:
         self.txtPrescription.insert(END,"PatientId:\t\t\t" + self.PatientId.get() + "\n")
         self.txtPrescription.insert(END,"NHS Number:\t\t\t" + self.nhsNumber.get() + "\n")
         self.txtPrescription.insert(END,"Patient Name:\t\t\t" + self.PatientName.get() + "\n")
-        self.txtPrescription.insert(END,"Date of Birth:\t\t\t" + self.DateofBirth.get() + "\n")
+        self.txtPrescription.insert(END,"Date of Birth:\t\t\t" + self.DateOfBirth.get() + "\n")
         self.txtPrescription.insert(END,"Patient Address:\t\t\t" + self.PatientAddress.get() + "\n")
 
     def idelete(self):
         conn = mysql.connector.connect(host='localhost', username='root', password='root', database='mydata')
         my_cursor = conn.cursor()
-        query = 'delete from hospital where Reference_No=%s'
+        query = 'delete from hospital where ReferenceNo=%s'
         value=(self.ref.get(),)
         my_cursor.execute(query,value)
         
@@ -368,7 +413,7 @@ class Hospital:
         self.Dose.set("")
         self.NumberofTablets.set("")
         self.Lot.set("")
-        self.Issuedate.set("")
+        self.IssueDate.set("")
         self.ExpDate.set("")
         self.DailyDose.set("")
         self.sideEffect.set("")
@@ -379,7 +424,7 @@ class Hospital:
         self.PatientId.set("")
         self.nhsNumber.set("")
         self.PatientName.set("")
-        self.DateofBirth.set("")
+        self.DateOfBirth.set("")
         self.PatientAddress.set("")
         self.txtPrescription.delete("1.0", END)
 
